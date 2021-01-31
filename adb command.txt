@@ -1,0 +1,212 @@
+1.Connect your TV Device:
+adb connect ip address:port
+such as:
+adb connect 192.168.1.124:50555
+
+
+2.Show Devices:
+adb devices
+
+3.Reboot Device:
+adb reboot
+
+4.Install Apk£º
+adb install <apk path>
+Cover Install Apk£º
+adb install -r <apk path>
+
+5.Uninstall Apk:
+adb uninstall <packagename>
+
+6.Get Administration permission£º
+adb root
+
+7.Remount partition:
+adb remount
+
+8.Push Command:
+adb push <apk file> <remote path>
+such as:
+adb push 123.apk /system/app
+Attention:When push failed,You need to execute the command first "adb root;adb remount",and then execute push command.
+
+9.Pull the apk out from TV Device£¬like download apk:
+adb pull <remote path> <local path>
+such as:
+adb pull /system/app/123.apk F:\
+
+10.Look up the system's apk:
+adb shell
+cd system/app
+ls
+
+11.Start the application:
+adb shell am start -n packageName/.className
+such as:
+adb shell am start -n com.dy.launchereng/.LauncherActivity
+
+12.Look up the running activities name:
+adb shell dumpsys activity
+=
+adb shell dumpsys activity | findstr mFocusedActivity
+=
+adb shell dumpsys activity | findstr mResumedActivity
+=
+adb shell dumpsys activity|grep Resume
+Look up the Top ActivityName:
+adb shell dumpsys activity top 
+
+13.Look up the apk path:
+adb shell pm path <packagename>
+such as:
+adb shell pm path com.dy.tclauncher
+
+14.Look up the apk details info:
+adb shell dumpsys package <packageName>
+such as:
+adb shell dumpsys package com.dy.tclauncher
+
+15Look up the APK VersionName
+adb shell dumpsys package <packageName> |findstr versionName
+
+16.Look up the APK VersionCode
+adb shell dumpsys package <packageName> |findstr versionCode
+such as:
+adb shell dumpsys package com.dy.tclauncher |findstr versionCode
+
+18.Search the system info:
+18.1 Look up the firmware version:
+adb shell cat /system/build.prop |findstr firmware
+18.2 Look up the Android version code£º
+adb shell  getprop |findstr release
+18.3 Look up the Firmware model:
+adb shell cat /system/build.prop |findstr model
+18.4 Look up the Firmware date£º
+adb shell getprop ro.build.date
+18.5 Loop up the type:
+adb shell  getprop |findstr  type
+adb shell  getprop |findstr incremental
+adb shell getprop |findstr hostname
+adb shell getprop |findstr uuid
+
+19.Look up the memory:
+adb shell df
+
+20.Clear the Apk data:
+adb shell pm clear com.dy.alilauncher
+
+
+21.Look up the CPU info:
+adb shell cat /proc/cpuinfo
+
+22.Look up the Running memory info:
+adb shell cat /proc/meminfo
+
+23.Search all apks process:
+adb shell ps
+Search one apk process:
+adb shell ps |findstr <packageName>
+
+24.monkey test command£º
+adb shell monkey -p com.dy.launchereng 10000
+24.1 delay monkey test£º
+adb shell monkey -p com.cvte.tv.launcher.arc --throttle 500 -v 10000
+24.2 delay monkey test and print the logcat to text:
+adb shell monkey -p com.cvte.tv.launcher.arc --throttle 500 -v 10000 >D:/monkey.txt
+24.3 delay monkey test and monitor the error code and print the log to text:
+adb shell monkey -p com.droidlogic.mboxlauncher502 --monitor-native-crashes --throttle 500 -v 10000>D:/monkey.txt
+24.4 random running apk to test:
+adb shell monkey -v --monitor-native-crashes --throttle 800 10000
+24.5 stop monkey test:
+adb shell ps | findstr monkey
+adb shell kill <process id>
+
+29.Sign the apk:
+java -jar signapk.jar platform.x509.pem platform.pk8 app-debug.apk launcher.apk
+(signapk.jar£¬platform.x509.pem £¬platform.pk8)
+
+
+Input the keyevent test:
+adb shell input keyevent keycode
+such as:(execute keyback code)
+adb shell input keyevent 4
+
+Shutdown TV:
+adb shell setprop sys.powerctl shutdown
+
+Get the avaliable system permission:
+adb shell pm list permissions
+Reboot TV:
+adb shell setprop sys.powerctl reboot»òadb shell reboot
+
+Get the drive device:
+adb shell getevent -l
+
+Send Broadcast:
+adb shell am broadcast -a "com.android.launcher3.show_navigator"
+
+screenshots:
+adb shell screenrecord /sdcard/example.mp4
+
+screenshot:
+adb shell screenshot /sdcard/example.png
+
+Look up the device size:
+adb shell wm size
+
+Modify the device size:
+adb shell wm size 1080x1920
+
+Reset the device size:
+adb shell wm size reset
+
+Get the device density:
+adb shell wm density
+
+Modify the device density:
+adb shell wm density 420
+
+Modify the device screen padding::
+adb shell wm overscan 20,20,20,20
+
+Force to stop apk:
+adb shell am force-stop <packagename>
+
+clear logcat:
+adb logcat -c
+
+kernel log:
+adb logcat dmesg
+
+How to pull the apk out:
+1.Search the apk path:
+adb shell pm path <packageName>
+Question:
+adb pull failed remote permission denied
+2.Solution:
+Firstly,"cp sourceDir targetDir",and then adb pull apk out.
+
+
+Get the system default inputmethod(com.android.inputmethod.latin/.LatinIME)
+adb shell settings get secure default_input_method
+Modify the default inputmethod:
+adb shell settings put secure default_input_method com.simple.ime/.services.ServerInputMethodService
+
+
+Input Text in Device:
+adb shell input text 12345678
+
+pull the anr text out:
+adb pull /data/anr/traces.txt D:\Android
+
+
+
+
+17024<4802<16387<25140<32123<18957<33501<19171<33613<12045<17622<31012<16386<5367<6647<33017<25384<19732<25841<5093<8110<7810<18689<4966<41553<17229<17527<5926<20153<25839<32934<19130<18184<17163<40009<5923<16200<25626<19279<20070<16722<9070<32926<18360<20814<19462<18856<19135<15943<18362<19837
+
+
+
+
+
+
+

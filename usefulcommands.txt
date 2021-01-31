@@ -1,0 +1,17 @@
+1. LVDS problem solution,
+
+replace /tvconfig/config/panel/AU20_T200XW02.ini with D:\MStar TV Docs\AU20_T200XW02.ini 
+
+if Read-only problem,
+
+adb mount -o rw,remount -t ext4 /dev/block/platform/mstar_mci.0/by-name/tvconfig /tvconfig
+
+2. Mirror problem solution
+
+replace /tvconfig/config/model/Customer_1.ini with D:\MStar TV Docs\Customer_1.ini
+
+Open factory menu, change Design Menu -> Other Option -> Restore To Default from off to On
+
+adb push "D:\MStar TV Docs\Hong Vai SW\OK ini files\AU20_T200XW02.ini" /tvconfig/config/panel
+
+adb push "D:\MStar TV Docs\Hong Vai SW\OK ini files\Customer_1.ini" /tvconfig/config/model

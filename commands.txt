@@ -1,0 +1,144 @@
+Take screen shot from tv:  adb shell screencap -p /storage/emulated/0/DCIM/settings.png
+Pull screen shot image from TV to computer: adb pull /storage/emulated/0/DCIM/screencap2.png C:\Users\walton\Desktop\k\
+
+**************************Install Apk in Android System***********************************
+
+** uninstall apk
+adb uninstall packageName
+if uninstall show Failure [DELETE_FAILED_INTERNAL_ERROR] run below command
+adb shell
+cd system/app
+rm -rf Hyundai/
+if show this error rm: Hyundai.apk: Read-only file system, then run below command
+su
+
+  / 
+rm -rf Hyundai/
+reboot
+
+** For write permission
+adb shell mount -o rw,remount -t ext4 /dev/block/platform/mstar_mci.0/by-name/system /system
+
+** Go to system directory
+adb shell
+cd sys
+
+**Go to system app directory, where all application apk files are stored.We have to craete another directory in this directory. This directory name is as same as the apk name. Then we put apk file in this new directory
+
+cd system/app
+
+** See the all file list with permission
+ls -al
+
+*Test
+cd KeyChain/
+ls
+
+** Go to the previous directory
+cd ../
+
+** Now I make a directory for my application with the same name apk and directory
+mkdir LocalMedia/
+
+**If there is warning "Read-only file only" then we need to run below commands
+su
+
+** If su not working then run below command
+adb root
+adb remount 
+
+mkdir Local/ (create Local directory)
+cd Local/ (Go to this directory)
+cd ../ (Go back to the previous directory)
+rm -rf Local/ (Remove Local Directory)
+
+mkdir LocalMedia/
+
+*Exit from this process
+exit
+
+*Now push my biuld apk file to the system 
+adb push "D:\Android Projects\TvBrowser\MediaMstar\app\build\outputs\apk\debug\LocalMedia.apk" /system/app/LocalMedia/
+
+** if there will warning like "remote fchown failed: Operation not permitted"
+adb root
+adb remount
+
+then again try to push and run previous push command
+
+** now check
+adb shell
+cd sys
+cd system/app/LocalMedia/
+ls
+
+** check apk file permission 
+ls -al LocalMedia.apk
+
+** Now reboot the tv
+reboot
+
+Or there is another way to avoid reboot, give in below,
+adb shell ps | findstr com.jrm
+
+get the process and kill the process
+adb shell kill 3209
+
+**************************END***************************
+
+
+**Pull apk file from TV
+
+c
+
+1
+ctr+c
+cp -rf /data/app/(apk file path) /sdcard
+cd /sdcard/
+ls -al
+adb pull /sdcard/base.apk .
+cd Desktop
+apktool d base.apk
+
+adb pull /system/app/Gallery2/Gallery2.apk .
+
+
+** Decompile and Get resource file from apk
+
+apktool d "com.jagoapp.jagobd_15_apps.evozi.com (1).apk"
+
+
+
+## Launcher Application
+adb shell
+cd system/priv-app/
+
+
+## MStar Tv Application Path
+
+adb shell
+cd vendor/app
+
+
+
+1.  source build  (every time open CRT, and if change source )
+$  source build/envsetup.sh 
+
+2. select project  (every time open CRT, and if change project)
+$ lunch 21
+
+3.   compiling 
+a.  Full project 
+$ make -j32
+
+b) specific application 
+$ mm  path_of_Application
+
+4.  Image relase   
+$ releaseimage.sh 
+
+
+
+
+
+
